@@ -1,0 +1,49 @@
+
+Project Name:		Routing in SunSPOTs Wireless Sensors Nerworks
+Project Purpose:	Education, Distributed Software Development Course 
+Project Supervisor: 	Sami Rollings, USF Professor 
+Participants:		Ali Alnajjar USF MS Web Science Student
+Contact:		najjaray@gmail.com
+Requirement URL:	https://sites.google.com/site/usfcs685s10/a/project-3---routing
+====================================================================================
+
+Routing is a key element for any network and sensor networks often have unique routing requirements.  One-to-one routing is often not necessary while many-to-one or one-to-many delivery is critical.  For this project, you will implement a one-to-many routing algorithm and conduct an experiment to compare your algorithm to a basic flooding strategy. 
+Requirements
+
+   1. Temperature Application - You will implement a very simple application wherein sensors periodically report the temperature to a base station.  Initially, every 1 second each sensor will sample the temperature and send a unicast message to the base station containing the result.  You will rely on the standard AODV routing protocol provided by the SunSPOT SDK to route this unicast message to the base station.
+   2. Network Retasking - You will provide a mechanism to allow the base station to retask the network by sending a new temperature sampling rate to all nodes, for example the base station might tell all sensors to sample and report the temperature every 2 seconds rather than every 1 second.
+   3. Routing - You will implement two routing algorithms and provide a mechanism to configure which algorithm nodes will use for any given execution of the application.
+         1. Flooding - Using the flooding algorithm, each node will listen for networking retasking messages.  Upon receipt of a new retasking message, a node will apply the new sampling interval and rebroadcast the message received.  If a node receives a retasking message it has already processed, it will ignore the message.  This will require you to assign unique identifiers (version numbers) to each message.
+         2. One-to-Many Routing - The one-to-many algorithm will also deliver the retasking message to all sensors, but will attempt to optimize a metric of your choosing.  You may design your own routing algorithm or implement the basic Trickle algorithm.  Trickle aims to reduce the number of data packets delivered to each node by using a polite gossip strategy. Refer to the paper for details, but the basic algorithm is as follows: 
+                   in each time interval   
+                    if a node has not recently heard metadata containing its current version
+                        broadcast a metadata message containing current version
+                if metadata containing an older version is received from a neighbor
+                    broadcast newest data
+                if metadata containing a newer version is received from a neighbor
+                    broadcast old metadata
+
+            You may note that when the size of the metadata and data messages are similar Trickle does not provide an advantage, in fact it may generate more network traffic than flooding.  In cases where data messages are large, however, Trickle provides a savings.
+
+   4. Evaluation - You will design and implement at least one experiment comparing Flooding and Trickle (or the algorithm you have designed).  You must identify the metric you will use for comparison and the parameter you will vary.  One possible experiment would compare the number of data packets received for two or three different network topologies.  You might compare the total number of data packets received by each node in a one-hop network versus a fully-connected network.  For your experiment, you must use at least 6 sensors.  Note: you will need to add extra code to your application to collect the appropriate data for your experiment.
+   5. Report - Along with your code, you will submit a written report, of about 1 page, that (1) describes your algorithm, (2) describes the setup of your experiment, including the metric and parameter you consider, (3) includes a figure outlining the results of your experiment, and (4) describes in at least one paragraph the findings reported in your figure.            
+
+You may choose to design your own algorithm and/or experiment, but you are strongly encouraged to discuss your ideas with the instructor before beginning work.  Often, students have a tendency to pursue ideas that are either too simplistic or too complex.  In either case, you may end up receiving less than full credit.  To avoid this, discuss your ideas with the instructor first.
+Additional Requirements
+Students who received below 70% on Project 2 are required to do the following:
+
+   1. Meet with the Professor on or before Wednesday April 14 to demonstrate progress on Project 3.  By the meeting, students must have completed requirements 1, 2, and 3.1 described above.  Students will also describe the experiment they plan to execute for requirement 4.
+   2. Meet with the Professor on or before Tuesday April 20 to demonstrate progress on requirement 3.2 and show a draft of the report required for requirement 5.  The report need not be complete, but a draft of parts 1 and 2 must be shown to the Professor.
+
+Failure to meet these additional requirements will result in a deduction of at least 20%.  Students must schedule at least 30 minutes for each meeting and must show the required progress.
+
+Meeting times are available for Monday 4/12, Tuesday 4/13, and Wednesday 4/14 for additional requirement 1.  Meeting times are available on Monday 4/19 and Tuesday 4/20 for additional requirement 2.  Email the Professor as soon as possible specifying your availability for the two 30 minute meetings. 
+Due Wednesday, 4/21 - 3:30pm
+Submission
+
+   1. For full credit, you must upload your code and report to your SVN repository.  Upload your code into directories using the following naming convention.  Failure to use this exact naming scheme may result in deduction of points.
+         1. <username>/cs685/proj3/RoutingSPOT
+         2. <username>/cs685/proj3/RoutingBaseStation
+         3. <username>/cs685/proj3/report.pdf
+   2. Submit a hard copy of your report in class on 4/21.
+   3. See this SVN How-to for more information on using SVN.
